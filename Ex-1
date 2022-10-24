@@ -1,0 +1,96 @@
+#include "stdio.h"
+#include "locale.h"
+#include "stdlib.h"
+#include "time.h"
+
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+	srand(time(NULL));
+	int randIn;
+	int n;
+	int array[100];
+
+	printf("     Введите количество элементов массива:\n");
+	while (scanf_s("%d", &n) != 1 || n <= 0 || getchar() != '\n') {
+		printf("Проверьте корректность введенных данных!\n");
+		rewind(stdin);
+	}
+
+	printf("     Вы желаете вручную заполнить массив (1) или автоматически случайными числами (2)?\n");
+	while (scanf_s("%d", &randIn) != 1 || randIn != 1 && randIn != 2 || getchar() != '\n') {
+		printf("Проверьте корректность введенных данных!\n");
+		rewind(stdin);
+	}
+
+	switch (randIn) {
+	case 1:
+		for (int i = 0; i < n; i++) {
+			printf("     Введите элемент %d:\n", i + 1);
+			while (scanf_s("%d", &array[i]) != 1 || getchar() != '\n') {
+				printf("Проверьте корректность введенных данных!\n");
+				rewind(stdin);
+			}
+		};
+		break;
+	case 2:
+		for (int i = 0; i < n; i++) {
+			array[i] = rand() % 100;
+		};
+		break;
+	}
+
+	printf("     Исходный массив:\n     ");
+	for (int i = 0; i < n; i++) {
+		printf("%d ", array[i]);
+	}
+
+	int max;
+	max = array[0];
+	for (int i = 0; i < n; i++) {
+		if (array[i] > max) {
+			max = array[i];
+		}
+
+	}
+	printf("\n     Максимальный элемент массива: %d\n", max);
+
+	int zeroNum = 0;
+	int zeroNum1, zeroNum2;
+	for (int i = 0; i < n; i++) {
+		if (array[i] == 0) {
+			switch (zeroNum) {
+			case 0:
+				zeroNum1 = i;
+				zeroNum++;
+				break;
+			case 1:
+				zeroNum2 = i;
+				zeroNum++;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	int prod = 1;
+	switch (zeroNum) {
+	case 0:
+		printf("     В массиве меньше двух нулевых элементов\n");
+		break;
+	case 1:
+		printf("     В массиве меньше двух нулевых элементов\n");
+		break;
+	default:
+		for (int i = 0; i < n; i++) {
+			if (i > zeroNum1 && i < zeroNum2) {
+				prod = prod * array[i];
+			}
+		};
+		printf("     Произведение элементов массива между нулевыми элементами: %d\n", prod);
+		break;
+	}
+
+	return 0;
+}
